@@ -24,22 +24,29 @@ BOOL CALLBACK EnumChildProc(HWND hwndChild, LPARAM lParam)
 	return TRUE;
 }
 
+int count = 0;
+
 int main()
 {
+	printf("waiting");
 	while (TRUE)
 	{
+		if (count == 30)
+		{
+			printf("\n"); count = 0;
+		}
 		Sleep(1500);
 		HWND hwnd = FindWindowEx(NULL, NULL, "#32770", "非商业许可证");
 		if (hwnd == 0)
 		{
-			printf("can't find license WINDOW,waiting...\n");
+			printf("."); count++;
 			continue;
 		}
 		checkBtn = 0, closeBtn = 0;
 		EnumChildWindows(hwnd, EnumChildProc, NULL);
 		if (checkBtn != 0 && closeBtn != 0)
 		{
-			printf("Oops, catch youuu!\n");
+			printf("\nOops, catch youuu!\n");
 			EnableWindow(checkBtn, TRUE);
 			SendMessage(checkBtn, BM_CLICK, NULL, NULL);
 			SendMessage(closeBtn, BM_CLICK, NULL, NULL);
