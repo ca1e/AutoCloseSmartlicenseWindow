@@ -28,6 +28,7 @@ int count = 0;
 
 int main()
 {
+	SetConsoleTitle("AutoCloseSmartlicenseWindow");
 	printf("waiting");
 	while (TRUE)
 	{
@@ -36,12 +37,14 @@ int main()
 			printf("\n"); count = 0;
 		}
 		Sleep(1500);
-		HWND hwnd = FindWindowEx(NULL, NULL, "#32770", "非商业许可证");
-		if (hwnd == 0)
+		HWND hwnd1 = FindWindowEx(NULL, NULL, "#32770", "Non-Commercial License");
+		HWND hwnd2 = FindWindowEx(NULL, NULL, "#32770", "非商业许可证");
+		if (hwnd1 == 0 && hwnd2 == 0)
 		{
 			printf("."); count++;
 			continue;
 		}
+		HWND hwnd = (HWND)((int)hwnd1 | (int)hwnd2);
 		checkBtn = 0, closeBtn = 0;
 		EnumChildWindows(hwnd, EnumChildProc, NULL);
 		if (checkBtn != 0 && closeBtn != 0)
