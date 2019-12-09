@@ -2,8 +2,6 @@
 #include <windows.h>
 #include<tlhelp32.h>
 
-HWND closeBtn = 0;
-
 BOOL CALLBACK EnumChildProc(HWND hwndChild, LPARAM lParam)
 {
 	char className[MAXCHAR] = "";
@@ -11,16 +9,8 @@ BOOL CALLBACK EnumChildProc(HWND hwndChild, LPARAM lParam)
 	GetClassName(hwndChild, className, MAXCHAR);
 	if (strcmp(className, "Button") == 0)
 	{
-		GetWindowText(hwndChild, winText, MAX_PATH);
-		if (strcmp(winText, "Close") == 0)
-		{
-			closeBtn = hwndChild;
-		}
-		else
-		{
-			EnableWindow(hwndChild, TRUE);
-			SendMessage(hwndChild, BM_CLICK, NULL, NULL);
-		}
+		EnableWindow(hwndChild, TRUE);
+		SendMessage(hwndChild, BM_CLICK, NULL, NULL);
 	}
 	return TRUE;
 }
@@ -45,15 +35,9 @@ int main()
 			printf("."); count++;
 			continue;
 		}
-		printf("*");
 		HWND hwnd = (HWND)((int)hwnd1 | (int)hwnd2);
-		closeBtn = 0;
 		EnumChildWindows(hwnd, EnumChildProc, NULL);
-		if (closeBtn != 0)
-		{
-			printf("\nOops, catch youuu!\n");
-			SendMessage(closeBtn, BM_CLICK, NULL, NULL);
-		}
+		printf("*");
 	}
 
 	return 0;
