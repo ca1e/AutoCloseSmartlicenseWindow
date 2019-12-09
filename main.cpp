@@ -2,7 +2,7 @@
 #include <windows.h>
 #include<tlhelp32.h>
 
-HWND checkBtn = 0, closeBtn = 0;
+HWND closeBtn = 0;
 
 BOOL CALLBACK EnumChildProc(HWND hwndChild, LPARAM lParam)
 {
@@ -18,7 +18,8 @@ BOOL CALLBACK EnumChildProc(HWND hwndChild, LPARAM lParam)
 		}
 		else
 		{
-			checkBtn = hwndChild;
+			EnableWindow(hwndChild, TRUE);
+			SendMessage(hwndChild, BM_CLICK, NULL, NULL);
 		}
 	}
 	return TRUE;
@@ -44,14 +45,13 @@ int main()
 			printf("."); count++;
 			continue;
 		}
+		printf("*");
 		HWND hwnd = (HWND)((int)hwnd1 | (int)hwnd2);
-		checkBtn = 0, closeBtn = 0;
+		closeBtn = 0;
 		EnumChildWindows(hwnd, EnumChildProc, NULL);
-		if (checkBtn != 0 && closeBtn != 0)
+		if (closeBtn != 0)
 		{
 			printf("\nOops, catch youuu!\n");
-			EnableWindow(checkBtn, TRUE);
-			SendMessage(checkBtn, BM_CLICK, NULL, NULL);
 			SendMessage(closeBtn, BM_CLICK, NULL, NULL);
 		}
 	}
