@@ -1,4 +1,3 @@
-
 #include <windows.h>
 #include "resource.h"
 
@@ -27,7 +26,7 @@ void InitTray(HWND hWnd)
 	Shell_NotifyIcon(NIM_ADD, &nid);
 }
 
-void ShowBalloonTip()
+void ShowBalloonTip(LPCTSTR msg)
 {
 	nid.cbSize = sizeof(NOTIFYICONDATA);
 	nid.uFlags = NIF_INFO;
@@ -35,7 +34,7 @@ void ShowBalloonTip()
 	nid.uTimeout = 600;
 	nid.dwInfoFlags = NIIF_INFO;
 	lstrcpy(nid.szInfoTitle, APP_NAME);
-	lstrcpy(nid.szInfo, TEXT("Oops! c ya!"));
+	lstrcpy(nid.szInfo, msg);
 	Shell_NotifyIcon(NIM_MODIFY, &nid);
 }
 
@@ -62,7 +61,7 @@ BOOL CALLBACK EnumChildProc(HWND hwndChild, LPARAM lParam)
 void CloseSmartLicenseWindow()
 {
 	HWND hwnd1 = FindWindowEx(NULL, NULL, TEXT("#32770"), TEXT("Non-Commercial License"));
-	HWND hwnd2 = FindWindowEx(NULL, NULL, TEXT("#32770"), TEXT("非商业许可证"));
+	HWND hwnd2 = FindWindowEx(NULL, NULL, TEXT("#32770"), TEXT("闈炲晢涓氳鍙瘉"));
 	if (hwnd1 == 0 && hwnd2 == 0)
 	{
 		return;
@@ -72,7 +71,7 @@ void CloseSmartLicenseWindow()
 
 	if (closeBtn != 0) {
 		SendMessage(closeBtn, BM_CLICK, NULL, NULL);
-		ShowBalloonTip();
+		ShowBalloonTip(TEXT("Oops! c ya!"));
 	}
 }
 
@@ -128,6 +127,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/,
 	UpdateWindow(hWnd);
 
 	InitTray(hWnd);
+	ShowBalloonTip(TEXT("Watching yo!"));
 	SetTimer(hWnd, 3, 1500, NULL);
 
 	while (GetMessage(&msg, NULL, 0, 0))
