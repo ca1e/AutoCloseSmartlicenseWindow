@@ -61,7 +61,7 @@ BOOL CALLBACK EnumChildProc(HWND hwndChild, LPARAM lParam)
 void CloseSmartLicenseWindow()
 {
 	HWND hwnd1 = FindWindowEx(NULL, NULL, TEXT("#32770"), TEXT("Non-Commercial License"));
-	HWND hwnd2 = FindWindowEx(NULL, NULL, TEXT("#32770"), TEXT("非商业许可证"));
+	HWND hwnd2 = FindWindowEx(NULL, NULL, TEXT("#32770"), TEXT("闈炲晢涓氳鍙瘉"));
 	if (hwnd1 == 0 && hwnd2 == 0)
 	{
 		return;
